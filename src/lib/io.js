@@ -1,4 +1,4 @@
-import { getData, replaceAll } from './store'
+import { getData } from './store'
 
 function download(filename, text, mime = 'application/json') {
   const blob = new Blob([text], { type: mime })
@@ -17,13 +17,6 @@ const stamp = () => new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')
 export function exportJSON() {
   const data = getData()
   download(`kitten-tracker-${stamp()}.json`, JSON.stringify(data, null, 2))
-}
-
-export async function importJSON(file) {
-  const text = await file.text()
-  const parsed = JSON.parse(text)
-  if (!parsed || typeof parsed !== 'object') throw new Error('Invalid file')
-  replaceAll(parsed)
 }
 
 function csvEscape(v) {
